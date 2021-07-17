@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit.css') }} ">
+    <title>Blogly</title>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2>Fill in any details you'd like to change.</h2>
+        <form action="#" method="POST">
+            <label for="first">First Name</label>
+            <input type="text" name="first_name" id="first" placeholder="Enter your first name">
+            <label for="last">Last Name</label>
+            <input type="text" name="last_name" id="last" placeholder="Enter your last name">
+            <label for="image">Image URL</label>
+            <input type="url" name="image_url" id="image" placeholder="Enter your image URL (not required)">
+            <button class="form-button" type="submit">Save and Exit</button>
+        </form>
+        <button class="return"><a href="/users/{{id}}">Return to Profile</a></button>
+    </div>
+{% endblock %}

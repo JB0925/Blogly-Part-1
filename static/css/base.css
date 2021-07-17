@@ -1,0 +1,109 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #0d3b66;
+}
+
+nav h1 {
+    margin-left: 2%;
+    font-size: 1.7rem;
+    color: white;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+nav li {
+    list-style: none;
+    margin-right: 50px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0d3b66;
+}
+
+footer p {
+    color: white;
+}
+
+.users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.users li {
+    list-style: none;
+    margin-left: -15%;
+}
+
+.create-users {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    border: 10px solid gold;
+    padding: 25px;
+}
+
+input {
+    margin-bottom: 20px;
+    width: 250px;
+    height: 35px;
+    border-radius: 5px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+label {
+    margin-bottom: 20px;
+}
+
+.form-button {
+    height: 35px;
+    width: 250px;
+    border-radius: 5px;
+    background-color: dodgerblue;
+    color: white;
+}
