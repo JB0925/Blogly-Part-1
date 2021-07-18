@@ -52,7 +52,7 @@ def show_user(id):
     user = User.query.get(id)
     if user:
         return render_template('userdisplay.html', user=user)
-    return redirect(url_for('user_list'))
+    return redirect(url_for('not_found'))
 
 
 @app.route('/users/<id>/edit', methods=['GET', 'POST'])
@@ -88,3 +88,8 @@ def delete_user(id):
         db.session.commit()
     
     return redirect(url_for('user_list'))
+
+
+@app.route('/404')
+def not_found():
+    return render_template('404.html')

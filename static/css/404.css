@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 70vh;
+}
+
+.container p {
+    width: 30%;
+    line-height: 1.8rem;
+}
+
+h1 {
+    font-size: 2.2rem;
+}
+
+button {
+    height: 35px;
+    width: 150px;
+    border-radius: 5px;
+    background-color: dodgerblue;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}

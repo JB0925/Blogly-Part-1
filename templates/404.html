@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 {% block head %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,25 +7,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/404.css') }} ">
     <title>Blogly</title>
 {% endblock %}
-<body>
-    <header>
-        <nav>
-            <h1>Welcome to Blogly!</h1>
-            <ul>
-                <li><a href="/users">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contacts</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-    <footer>
-        <p>A Springboard student production. &copy; 2021. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <h1>We're Sorry!</h1>
+        <p>The page you requested could not be found.
+            Click below to return to the users page if you
+            are not redirected after three seconds.
+        </p>
+        <button><a href="/users">Return to Users</a></button>
+        <meta http-equiv="refresh" content="3; /users">
+    </div>
+{% endblock %}
