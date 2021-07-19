@@ -1,12 +1,14 @@
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, url_for
 from decouple import config
 
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 
 connect_db(app)
 db.create_all()
@@ -51,7 +53,8 @@ def add_user():
 def show_user(id):
     user = User.query.get(id)
     if user:
-        return render_template('userdisplay.html', user=user)
+        posts = user.posts
+        return render_template('userdisplay.html', user=user, posts=posts)
     return redirect(url_for('not_found'))
 
 
@@ -88,6 +91,65 @@ def delete_user(id):
         db.session.commit()
     
     return redirect(url_for('user_list'))
+
+
+@app.route('/users/<id>/posts/new', methods=['GET', 'POST'])
+def add_post(id):
+    user = User.query.get(id)
+    if user:
+        if request.method == 'GET':
+            return render_template('add_post.html', user=user)
+        
+        form = request.form
+        print(form)
+        post = Post(title=form['title'], content=form['content'], created_at=datetime.now(), user_id=id)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('show_user', id=id))
+    
+    return redirect(url_for('not_found'))
+
+
+@app.route('/posts/<postid>')
+def show_post(postid):
+    post = Post.query.get(postid)
+    if post:
+        return render_template('show_post.html', post=post)
+    return redirect(url_for('not_found'))
+
+
+@app.route('/posts/<postid>/edit', methods=['GET', 'POST'])
+def edit_post(postid):
+    print(str(datetime.now()))
+    post = Post.query.get(postid)
+    if post:
+        if request.method == 'GET':
+            return render_template('edit_post.html', post=post)
+        
+        form = request.form
+        categories = 'title content'.split()
+        for i in range(len(categories)):
+            if i == 0 and form['title']:
+                post.title = form['title']
+            else:
+                if form['content']:
+                    post.content = form['content']
+
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('show_post', postid=post.id))
+    return redirect(url_for('not_found'))
+
+
+@app.route('/posts/<postid>/delete')
+def delete_post(postid):
+    post = Post.query.get(postid)
+    user_id = post.users.id
+    if post:
+        db.session.delete(post)
+        db.session.commit()
+    
+    return redirect(url_for('show_user', id=user_id))
 
 
 @app.route('/404')

@@ -19,6 +19,15 @@
         <div class="info">
             <p>First Name: {{user.first_name}}</p>
             <p>Last Name: {{user.last_name}}</p>
+            <h2>POSTS</h2>
+            {% if posts %}
+            <ul class="post-list">
+            {% for post in posts %}
+                <li><a class="post-link"  href="/posts/{{post.id}}">{{post.title}}</a></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            <button class="btn-add"><a href="/users/{{user.id}}/posts/new">Add Post</a></button>
         </div>
     </div>
 </div>

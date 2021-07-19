@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_post.css') }} ">
+    <title>Blogly</title>
+{% endblock %}
+{% block content %}
+    <div class="parent">
+        <div class="container">
+            <h2>Add a New Post</h2>
+            <form action="/users/{{user.id}}/posts/new" method="POST">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" placeholder="Enter a Title" required>
+                <label for="content">Enter Your Post</label>
+                <textarea type="textarea" id="content" name="content" placeholder="Enter your post here"
+                          rows="10" cols="50" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <button class="return"><a href="/users/{{user.id}}">Go Back</a></button>
+        </div>
+    </div>
+{% endblock %}

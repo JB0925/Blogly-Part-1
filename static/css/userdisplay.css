@@ -15,6 +15,7 @@
 
                          
     border: 5px solid gold;
+    /* height: 50vh; */
 }
 
 .picture {
@@ -27,13 +28,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     grid-area: in;
     font-weight: bolder;
+    position: relative;
 }
 
 .info p {
     width: 100%;
+}
+
+.info h2 {
+    align-self: flex-start;
+    text-decoration: underline;
 }
 
 img {
@@ -64,7 +71,28 @@ img {
     background-color: red;
 }
 
+.btn-add {
+    height: 35px;
+    width: 100px;
+    border-radius: 5px;
+    background-color: dodgerblue;
+    align-self: flex-start;
+    margin-bottom: 5px;
+}
+
 a {
     color: white;
     text-decoration: none;
+}
+
+.post-link {
+    color: darkblue;
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
 }

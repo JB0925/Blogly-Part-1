@@ -1,0 +1,65 @@
+.parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 300px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.btn-cancel,
+.btn-edit,
+.btn-delete {
+    height: 35px;
+    width: 100px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.btn-edit,
+.btn-delete {
+    color: white;
+}
+
+.btn-cancel {
+    background-color: white;
+}
+
+.btn-cancel a {
+    color: dodgerblue;
+}
+
+.btn-edit {
+    background-color: dodgerblue;
+}
+
+.btn-edit a {
+    color: white;
+}
+
+.btn-delete {
+    background-color: red;
+}
+
+.btn-delete a {
+    color: white;
+}
+
+.btn-cancel a,
+.btn-edit a,
+.btn-delete a {
+    text-decoration: none;
+}
