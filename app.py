@@ -16,11 +16,14 @@ db.create_all()
 
 @app.route('/')
 def home():
+    """Route used to redirect to the main page
+       of all users."""
     return redirect(url_for('user_list'))
 
 
 @app.route('/users')
 def user_list():
+    """The main page that displays all registered users."""
     users = User.query.all()
     if users:
         users = [[f'{user.last_name}, {user.first_name}', user.id] for user in users]
@@ -31,6 +34,7 @@ def user_list():
 
 @app.route('/users/new', methods=['GET', 'POST'])
 def add_user():
+    """Adds a user to the db and the user profiles page"""
     if request.method == 'GET':
         return render_template('userform.html')
     
@@ -51,6 +55,7 @@ def add_user():
 
 @app.route('/users/<id>')
 def show_user(id):
+    """Shows a user's profile."""
     user = User.query.get(id)
     if user:
         posts = user.posts
@@ -60,6 +65,7 @@ def show_user(id):
 
 @app.route('/users/<id>/edit', methods=['GET', 'POST'])
 def edit_profile(id):
+    """Returns a form for a user to edit their profile."""
     user = User.query.get(id)
     categories = 'first_name last_name image_url'.split()
     if user:
@@ -85,6 +91,9 @@ def edit_profile(id):
 
 @app.route('/users/<id>/delete')
 def delete_user(id):
+    """When the delete profile button is clicked, 
+       profile deletion is handled via this route,
+       and the user is redirected to the main page."""
     user = User.query.get(id)
     if user:
         db.session.delete(user)
@@ -95,13 +104,14 @@ def delete_user(id):
 
 @app.route('/users/<id>/posts/new', methods=['GET', 'POST'])
 def add_post(id):
+    """Adds a post to the database and links it
+       with a user, IF the user id is valid."""
     user = User.query.get(id)
     if user:
         if request.method == 'GET':
             return render_template('add_post.html', user=user)
         
         form = request.form
-        print(form)
         post = Post(title=form['title'], content=form['content'], created_at=datetime.now(), user_id=id)
         db.session.add(post)
         db.session.commit()
@@ -112,6 +122,8 @@ def add_post(id):
 
 @app.route('/posts/<postid>')
 def show_post(postid):
+    """When a post link is clicked, this link handles
+       routing the user to the post."""
     post = Post.query.get(postid)
     if post:
         return render_template('show_post.html', post=post)
@@ -120,7 +132,8 @@ def show_post(postid):
 
 @app.route('/posts/<postid>/edit', methods=['GET', 'POST'])
 def edit_post(postid):
-    print(str(datetime.now()))
+    """Allows a user to edit a post and change either
+       the title, content, or both."""
     post = Post.query.get(postid)
     if post:
         if request.method == 'GET':
@@ -143,6 +156,9 @@ def edit_post(postid):
 
 @app.route('/posts/<postid>/delete')
 def delete_post(postid):
+    """Similar to the delete user route, this handles
+       deletion of a post from the database, and thus
+       the UI."""
     post = Post.query.get(postid)
     user_id = post.users.id
     if post:
@@ -154,4 +170,7 @@ def delete_post(postid):
 
 @app.route('/404')
 def not_found():
+    """A catch all page that is used when the user types
+       in a bad route. It automatically redirects after 
+       three seconds."""
     return render_template('404.html')

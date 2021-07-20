@@ -1,9 +1,10 @@
 from unittest import TestCase
+from datetime import datetime
 
 from decouple import config
 
 from app import app
-from models import User, db
+from models import User, Post, db
 
 app.config['SQLALCHEMY_DATABASE_URI'] = config('TEST_DB')
 app.config['SQLALCHEMY_ECHO'] = False
@@ -67,15 +68,25 @@ class BloglyTestCase(TestCase):
             self.assertEqual(all_users, [])
     
 
-    def add_profile(self):
+    def test_add_profile(self):
         data = {
-                'first_name': 'Jake',
-                'last_name': 'State Farm',
-                'image_url': ''
+                'first': 'Jake',
+                'last': 'State Farm',
+                'image': ''
         }
         with app.test_client() as client:
             resp = client.post('/users/new', data=data)
             self.assertEqual(resp.status_code, 302)
             all_users = User.query.all()
             self.assertEqual(len(all_users), 2)
+    
+
+    def test_add_post(self):
+        data = {
+            'title': 'This is my title.',
+            'content': 'And this is my content'
+        }
+        with app.test_client() as client:
+            resp = client.post(f'/users/{7}/posts/new', data=data)
+            self.assertEqual(resp.status_code, 302)
             
