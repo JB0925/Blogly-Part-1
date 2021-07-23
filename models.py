@@ -1,3 +1,4 @@
+from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -38,3 +39,4 @@ class Post(db.Model):
 
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(id={self.id}, title={self.title}, created_at={self.created_at}, users={self.users}'
+        
