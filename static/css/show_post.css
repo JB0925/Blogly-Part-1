@@ -63,3 +63,29 @@
 .btn-delete a {
     text-decoration: none;
 }
+
+.tags {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.tags input {
+    height: auto;
+    width: auto;
+}
+
+.tags span {
+    padding: 2px;
+    background-color: dodgerblue;
+    color: white;
+    height: 25px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+
+.tag-display {
+    display: flex;
+    width: 100%;
+}

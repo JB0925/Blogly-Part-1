@@ -14,6 +14,14 @@ connect_db(app)
 db.create_all()
 
 
+def filter_tags_and_save(tags, other_id, form):
+    for tag in tags:
+        if tag.name in form:
+            pt = PostTag(post_id=other_id, tag_id=tag.id)
+            db.session.add(pt)
+            db.session.commit()
+    return
+
 @app.route('/')
 def home():
     """Route used to redirect to the main page
@@ -96,6 +104,8 @@ def delete_user(id):
        and the user is redirected to the main page."""
     user = User.query.get(id)
     if user:
+        for post in user.posts:
+            db.session.delete(post)
         db.session.delete(user)
         db.session.commit()
     
@@ -116,6 +126,8 @@ def add_post(id):
         post = Post(title=form['title'], content=form['content'], created_at=datetime.now(), user_id=id)
         db.session.add(post)
         db.session.commit()
+        post = Post.query.all()[-1]
+        filter_tags_and_save(tags, post.id, form.getlist('tag'))
         return redirect(url_for('show_user', id=id))
     
     return redirect(url_for('not_found'))
@@ -127,7 +139,8 @@ def show_post(postid):
        routing the user to the post."""
     post = Post.query.get(postid)
     if post:
-        return render_template('show_post.html', post=post)
+        tags = post.tags
+        return render_template('show_post.html', post=post, tags=tags)
     return redirect(url_for('not_found'))
 
 
@@ -137,8 +150,9 @@ def edit_post(postid):
        the title, content, or both."""
     post = Post.query.get(postid)
     if post:
+        tags = Tag.query.all()
         if request.method == 'GET':
-            return render_template('edit_post.html', post=post)
+            return render_template('edit_post.html', post=post, tags=tags)
         
         form = request.form
         categories = 'title content'.split()
@@ -151,6 +165,7 @@ def edit_post(postid):
 
         db.session.add(post)
         db.session.commit()
+        filter_tags_and_save(tags, post.id, form.getlist('tag'))
         return redirect(url_for('show_post', postid=post.id))
     return redirect(url_for('not_found'))
 
@@ -193,6 +208,36 @@ def get_tag_by_id(tag_id):
     if tag:
         return render_template('one_tag.html', tag=tag)
     return redirect(url_for('not_found'))
+
+
+@app.route('/tags/<tag_id>/edit', methods=['GET', 'POST'])
+def edit_tags(tag_id):
+    tag = Tag.query.get(tag_id)
+    if tag:
+        if request.method == 'GET':
+            return render_template('edit_tag.html', tag=tag)
+        
+        form = request.form
+        new_tag_name = form['changedtag']
+        tag.name = new_tag_name
+        db.session.add(tag)
+        db.session.commit()
+        return redirect(url_for('get_tag_by_id', tag_id=tag.id))
+
+
+@app.route('/tags/<tag_id>/delete')
+def delete_tag(tag_id):
+    """Similar to the delete user route, this handles
+       deletion of a tag from the database, and thus
+       the UI."""
+    tag = Tag.query.get(tag_id)
+    if tag:
+        for posttag in tag.join_tags:
+            db.session.delete(posttag)
+        db.session.delete(tag)
+        db.session.commit()
+    
+    return redirect(url_for('show_tags'))
 
 
 @app.route('/404')

@@ -22,7 +22,7 @@
                           rows="10" cols="50" required></textarea>
                 <div class="tags">
                     {% if tags %}
-                    <p>Choose Tags!</p>
+                    <p class="tag-msg">Choose Tags!</p>
                     <div class="tag-display">
                         {% for tag in tags %}
                         <input type="checkbox" name="tag" value="{{ tag['name'] }}"/>

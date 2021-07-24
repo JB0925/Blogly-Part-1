@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80vh;
+    height: 100vh;
 }
 
 .container {
@@ -11,10 +11,6 @@
     align-items: center;
     justify-content: center;
     width: 300px;
-}
-
-.container h2 {
-    margin-top: 60px;
 }
 
 button, .return {
@@ -61,5 +57,19 @@ button, .return {
 
 .tag-display {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
+}
+
+.cancel-btn {
+    background-color: red;
+}
+
+.cancel-btn a {
+    color: white;
+    text-decoration: none;
+}
+
+.tag-msg {
+    font-weight: 900;
 }

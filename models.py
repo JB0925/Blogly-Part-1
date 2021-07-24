@@ -34,7 +34,7 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
 
     users = db.relationship('User')
 
@@ -50,14 +50,16 @@ class Tag(db.Model):
     name = db.Column(db.String, unique=True, nullable=False)
 
     posts = db.relationship('Post', secondary='posttags', backref='tags')
+    join_tags = db.relationship('PostTag', cascade="all, delete, delete-orphan", backref='all_tags')
 
 
 class PostTag(db.Model):
 
     __tablename__ = 'posttags'
 
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id', ondelete='CASCADE'), primary_key=True)
+
 
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(post_id={self.post_id}, tag_id={self.tag_id}'

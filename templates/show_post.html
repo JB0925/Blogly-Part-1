@@ -16,6 +16,15 @@
             <h1>{{post.title}}</h1>
             <p>{{post.content}}</p>
             <p><i>By {{post.users.first_name}} {{post.users.last_name}}</i></p>
+            <div class="tags">
+                {% if tags %}
+                <div class="tag-display">
+                    {% for tag in tags %}
+                    <span>{{ tag['name'] }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
             <div class="button-container">
                 <button class="btn-cancel"><a href="/users/{{post.users.id}}">Cancel</a></button>
                 <button class="btn-edit"><a href="/posts/{{post.id}}/edit">Edit</a></button>
