@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 from decouple import config
 
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config('SQLALCHEMY_DATABASE_URI')
@@ -108,8 +108,9 @@ def add_post(id):
        with a user, IF the user id is valid."""
     user = User.query.get(id)
     if user:
+        tags = Tag.query.all()
         if request.method == 'GET':
-            return render_template('add_post.html', user=user)
+            return render_template('add_post.html', user=user, tags=tags)
         
         form = request.form
         post = Post(title=form['title'], content=form['content'], created_at=datetime.now(), user_id=id)
@@ -166,6 +167,32 @@ def delete_post(postid):
         db.session.commit()
     
     return redirect(url_for('show_user', id=user_id))
+
+
+@app.route('/tags/new', methods=['GET', 'POST'])
+def add_tag():
+    if request.method == 'GET':
+        return render_template('add_tags.html')
+    
+    form = request.form
+    new_tag = Tag(name=form['newtag'])
+    db.session.add(new_tag)
+    db.session.commit()
+    return redirect(url_for('show_tags'))
+
+
+@app.route('/tags')
+def show_tags():
+    all_tags = Tag.query.all()
+    return render_template('show_tags.html', tags=all_tags)
+
+
+@app.route('/tags/<tag_id>')
+def get_tag_by_id(tag_id):
+    tag = Tag.query.get(tag_id)
+    if tag:
+        return render_template('one_tag.html', tag=tag)
+    return redirect(url_for('not_found'))
 
 
 @app.route('/404')

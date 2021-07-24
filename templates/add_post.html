@@ -20,6 +20,17 @@
                 <label for="content">Enter Your Post</label>
                 <textarea type="textarea" id="content" name="content" placeholder="Enter your post here"
                           rows="10" cols="50" required></textarea>
+                <div class="tags">
+                    {% if tags %}
+                    <p>Choose Tags!</p>
+                    <div class="tag-display">
+                        {% for tag in tags %}
+                        <input type="checkbox" name="tag" value="{{ tag['name'] }}"/>
+                        <span>{{ tag['name'] }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
                 <button type="submit">Submit</button>
             </form>
             <button class="return"><a href="/users/{{user.id}}">Go Back</a></button>

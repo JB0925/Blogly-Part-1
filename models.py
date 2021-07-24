@@ -1,5 +1,6 @@
 from enum import unique
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref
 
 
 db = SQLAlchemy()
@@ -39,4 +40,24 @@ class Post(db.Model):
 
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(id={self.id}, title={self.title}, created_at={self.created_at}, users={self.users}'
-        
+
+
+class Tag(db.Model):
+
+    __tablename__ = 'tags'
+    
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+
+    posts = db.relationship('Post', secondary='posttags', backref='tags')
+
+
+class PostTag(db.Model):
+
+    __tablename__ = 'posttags'
+
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key=True)
+
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}(post_id={self.post_id}, tag_id={self.tag_id}'

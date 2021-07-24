@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_post.css') }} ">
+    <title>Blogly</title>
+{% endblock %}
+{% block content %}
+    <div class="parent">
+        <div class="container">
+            <form action="/tags/new" method="POST">
+                <label for="newtag">Add a Custom Tag</label>
+                <input type="text" name="newtag" id="newtag" placeholder="Enter Your Tag" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
